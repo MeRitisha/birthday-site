@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Bangaram!</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@400;600&display=swap');
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            min-height: 100vh;
+            overflow-x: hidden;
+            /* Background Image with Overlay - using local file */
+            background: linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)),
+                        url('pic1.jpg') no-repeat center center fixed;
+            background-size: cover;
+            position: relative;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+            background-color: rgba(255, 255, 255, 0.85);
+            border-radius: 15px;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+            margin-bottom: 30px;
+        }
+
+	   .music-player {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: white;
+            padding: 10px 15px;
+            border-radius: 50px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            z-index: 100;
+            gap: 10px;
+        }
+        
+        .music-control {
+            background: #5271ff;
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        
+        .music-control:hover {
+            background: #3d5cff;
+            transform: scale(1.1);
+        }
+        
+        .music-info {
+            font-size: 14px;
+            font-weight: 600;
+            color: #5271ff;
+        }
+        
+        header {
+            text-align: center;
+            padding: 40px 0;
+            position: relative;
+            animation: bounce 2s infinite alternate;
+        }
+        
+        @keyframes bounce {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-15px); }
+        }
+        
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 4rem;
+            margin: 10px 0;
+            background: linear-gradient(45deg, #ff6b6b, #5271ff, #38d39f);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 3px 3px 0 rgba(0,0,0,0.1);
+            letter-spacing: 2px;
+        }
+        
+        /* Letter Styles */
+       .letter-container {
+            perspective: 1000px;
+            width: 100%;
+            max-width: 600px;
+        }
+        
+        .letter {
+            background: linear-gradient(to bottom right, #ffffff, #f8f8f8);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transform-style: preserve-3d;
+            transition: transform 0.8s;
+            cursor: pointer;
+            position: relative;
+            border: 1px solid #f0d0d5;
+        }
+        
+        .letter:before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            background: linear-gradient(45deg, #ff6b6b, #ff8e8e, #ffb3b3);
+            z-index: -1;
+            border-radius: 20px;
+            opacity: 0.3;
+        }
+        
+        .letter.flipped {
+            transform: rotateY(180deg);
+        }
+        
+        .letter-front, .letter-back {
+            backface-visibility: hidden;
+        }
+        
+        .letter-back {
+            transform: rotateY(180deg);
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            padding: 40px;
+            background: linear-gradient(to bottom right, #fff9f9, #ffffff);
+            border-radius: 15px;
+        }
+        
+        .date {
+            text-align: right;
+            color: #888;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+        
+        .greeting {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.2rem;
+            color: #ff6b6b;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .content {
+            line-height: 1.8;
+            color: #555;
+            font-size: 1.1rem;
+        }
+        
+        .closing {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.8rem;
+            color: #ff6b6b;
+            margin-top: 30px;
+            text-align: right;
+        }
+        
+        .flip-note {
+            text-align: center;
+            margin-top: 20px;
+            font-style: italic;
+            color: #888;
+            font-size: 0.9rem;
+        }
+        
+        .heart {
+            color: #ff6b6b;
+            animation: heartbeat 1.5s infinite;
+            display: inline-block;
+        }
+        
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            25% { transform: scale(1.1); }
+            50% { transform: scale(1); }
+            75% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #ff6b6b;
+            opacity: 0;
+            animation: confetti-fall 3s ease-out infinite;
+        }
+        
+
+        
+        /* Timeline Styles */
+        .section-spacer {
+            height: 80px;
+        }
+        
+        h2 {
+            text-align: center;
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.5rem;
+            color: #ff6b6b;
+            margin-bottom: 30px;
+        }
+        
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px 0;
+        }
+        
+        .timeline:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: #5271ff;
+            left: 50%;
+            margin-left: -2px;
+            border-radius: 2px;
+        }
+        
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            background-color: inherit;
+            width: 50%;
+            box-sizing: border-box;
+            margin-bottom: 40px;
+        }
+        
+        .timeline-item:nth-child(odd) {
+            left: 0;
+        }
+        
+        .timeline-item:nth-child(even) {
+            left: 50%;
+        }
+        
+        .timeline-item:nth-child(odd):before {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            right: -10px;
+            background-color: white;
+            border: 4px solid #5271ff;
+            top: 15px;
+            border-radius: 50%;
+            z-index: 1;
+        }
+        
+        .timeline-item:nth-child(even):before {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            left: -10px;
+            background-color: white;
+            border: 4px solid #5271ff;
+            top: 15px;
+            border-radius: 50%;
+            z-index: 1;
+        }
+        
+        .timeline-content {
+            padding: 20px;
+            background-color: white;
+            position: relative;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+        
+        .timeline-date {
+            color: #5271ff;
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.8rem; }
+            .letter { padding: 25px; min-height: 300px; }
+            .letter-front, .letter-back { padding: 25px; width: calc(100% - 50px); }
+            .timeline-item { width: 100%; padding-left: 70px; padding-right: 0; }
+            .timeline-item:nth-child(even) { left: 0; }
+            .timeline:before { left: 31px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Happy Birthday Bangaram!</h1>
+            <p style="font-size: 1.3rem;">🎉 Celebrating Our Amazing Friendship 🎉</p>
+        </header>
+        
+        <!-- Interactive Letter -->
+        <div class="letter-container">
+            <div class="letter" id="letter">
+                <div class="letter-front">
+                    <div class="greeting">Dear Bangaram,</div>
+                    
+                    <div class="content">
+                        <p>Two years ago, life brought us together, and I'm forever grateful for that moment. As you celebrate another trip around the sun, I wanted to take a moment to tell you just how much your friendship means to me.</p>
+                        
+                        <p>Through the laughter, the tears, the midnight conversations, and adventures, you've been there as my constant support. Your kindness, humor, and genuine heart have made these past two years some of the best of my life.</p>
+                        
+                        <p>Remember when we first met and immediately clicked? It felt like we'd known each other for years. Since then, we've created countless memories together - some that still make me laugh until my sides hurt, and others that helped me grow through challenging times.</p>
+                    </div>
+                    
+                    <div class="flip-note">(Click to read more)</div>
+                 </div>
+            
+            <div class="letter-back">
+                <div class="content">
+                    <p>I admire your strength, your compassion, and the way you face challenges with grace and determination. You inspire me to be a better person every day.</p>
+                    
+                    <p>On your birthday, I wish you:</p>
+                    
+                    <ul style="list-style-type: none; padding-left: 20px;">
+                        <li>✨ Joy that sparkles like champagne bubbles</li>
+                        <li>💖 Love that surrounds you like a warm embrace</li>
+                        <li>🎉 Adventures that make your heart race with excitement</li>
+                        <li>🌈 Moments of peace and contentment</li>
+                    </ul>
+                    
+                    <p>May this year bring you everything your heart desires and more. Thank you for being you - perfectly, wonderfully, uniquely you.</p>
+                </div>
+                
+                <div class="closing">
+                    With all my love <span class="heart">❤️</span>,<br>
+                    Your Best Friend
+                </div>
+                    
+                    <div class="flip-note">(Click to flip back)</div>
+                </div>
+            </div>
+        </div>
+	
+        
+        <!-- Spacer between sections -->
+        <div class="section-spacer"></div>
+        
+        <!-- Timeline Section -->
+        <h2>Our Friendship Timeline</h2>
+        
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-date">2 Years Ago</div>
+			<h2>The Beginning of a Beautiful Bond 💫</h2>
+                    <p>We met, we clicked, and suddenly, miles didn't matter. From awkward introductions to endless conversations, our friendship started writing its own story. 🌍💖</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-date">18 Months Ago</div>
+			<h2>Late-Night Talks & Discussions 🌙✨</h2>
+                    <p>Distance couldn’t stop us from laughing at the silliest things or sharing our deepest thoughts. Whether it was venting about life or sharing traumas at 3 AM, we made every moment count. 💬😂</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-date">1 Year Ago</div>
+			<h2>Missing You a Little Extra 💕</h2>
+                    <p>A year of crazy  calls, virtual hugs, and counting the days until we meet. The distance felt real, but so did our bond. Through ups and downs, we proved that true friendship knows no boundaries. 🚀💞.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-date">6 Months Ago</div>
+			<h2>Stronger Than Ever 💪💖</h2>
+                    <p>Time flew, but our connection only grew deeper. From celebrating each other’s wins to supporting each other through tough times, we became more than just friends,we became family. No matter the distance, we always had each other’s backs. 🛤️💙.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-date">Today</div>
+			<h2>Still Here, Still Us 🥹❤️</h2>
+                    <p>Through all the days, weeks, and months, one thing remains the same we’re still here, still making memories, still proving that true friendship doesn’t need borders. No matter where life takes us, we’ll always have each other. 💫💖Celebrating your birthday and looking forward to many more years of friendship and adventures!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+   !-- Music Player -->
+    <div class="music-player">
+        <button class="music-control" id="playBtn">▶</button>
+        <div class="music-info" id="musicInfo">Birthday Song</div>
+        <audio id="bgMusic" loop>
+            <source src="birthday-song.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+    </div>
+
+    <div class="container">
+        <!-- Your existing content (header, letter, timeline) -->
+        <header>
+            <h1>Happy Birthday Bangaram!</h1>
+            <p style="font-size: 1.3rem;">🎉 Celebrating Our Amazing Friendship 🎉</p>
+        </header>
+        
+        <!-- Rest of your HTML content -->
+    </div>
+
+    <script>
+        // Music Player Functionality
+        const music = document.getElementById('bgMusic');
+        const playBtn = document.getElementById('playBtn');
+        const musicInfo = document.getElementById('musicInfo');
+        let isPlaying = false;
+
+        // Try to auto-play (will work if user has interacted with page before)
+        function tryAutoPlay() {
+            music.volume = 0.3; // Set volume to 30%
+            const playPromise = music.play();
+            
+            if (playPromise !== undefined) {
+                playPromise.then(_ => {
+                    // Autoplay started
+                    isPlaying = true;
+                    playBtn.textContent = '❚❚';
+                })
+                .catch(error => {
+                    // Autoplay prevented
+                    isPlaying = false;
+                    playBtn.textContent = '▶';
+                });
+            }
+        }
+
+        // Toggle play/pause
+        playBtn.addEventListener('click', function() {
+            if(isPlaying) {
+                music.pause();
+                playBtn.textContent = '▶';
+            } else {
+                music.play();
+                playBtn.textContent = '❚❚';
+            }
+            isPlaying = !isPlaying;
+        });
+
+        // Try to autoplay when page loads
+        document.addEventListener('DOMContentLoaded', tryAutoPlay);
+        
+        // Also try when user clicks anywhere on page
+        document.addEventListener('click', tryAutoPlay, { once: true });
+        
+        // Letter flip functionality (keep your existing code)
+        document.getElementById('letter')?.addEventListener('click', function() {
+            this.classList.toggle('flipped');
+        });
+    </script>
+</body>
+
+</html>
